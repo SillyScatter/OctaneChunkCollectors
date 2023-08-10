@@ -1,0 +1,4 @@
+name: OctaneChunkCollectors
+version: '${project.version}'
+main: com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors
+api-version: 1.19
