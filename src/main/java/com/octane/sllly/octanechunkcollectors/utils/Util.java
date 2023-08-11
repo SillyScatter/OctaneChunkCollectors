@@ -160,4 +160,17 @@ public class Util {
             builder.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
         return builder.substring(0, builder.length()-1);
     }
+
+    public static ItemStack replaceTextInItem(ItemStack itemStack, String from, String to){
+        ItemStack item = itemStack.clone();
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null)
+            return item;
+        if (meta.hasDisplayName())
+            meta.setDisplayName(meta.getDisplayName().replace(from, to));
+        if (meta.hasLore())
+            meta.setLore(replaceList(meta.getLore(), from, to));
+        item.setItemMeta(meta);
+        return item;
+    }
 }

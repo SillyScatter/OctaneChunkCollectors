@@ -32,6 +32,8 @@ public class ChunkCollectorCommandSystem extends SYSCommandBranch {
                 .executes((sender, args) -> {
                     OctaneChunkCollectors.collectorConfig.reload();
                     OctaneChunkCollectors.upgradesConfig.reload();
+                    OctaneChunkCollectors.languageConfig.reload();
+                    OctaneChunkCollectors.guiConfig.reload();
                     Util.sendMessage(sender, "&aCollector Configs Reloaded");
                 }));
     }

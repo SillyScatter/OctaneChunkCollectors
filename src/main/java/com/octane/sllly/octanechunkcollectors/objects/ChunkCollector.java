@@ -1,12 +1,14 @@
 package com.octane.sllly.octanechunkcollectors.objects;
 
 import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
+import com.octane.sllly.octanechunkcollectors.objects.menuitems.ContentItem;
 import com.octanepvp.octanefactions.fobjects.Faction;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class ChunkCollector {
 
@@ -17,6 +19,8 @@ public class ChunkCollector {
     private boolean full;
 
     private HashMap<ItemStack, Integer> contents;
+
+    private List<ContentItem> contentItemList;
 
     //Upgrades people, Upgrades!
     //Auto Sell Upgrade
@@ -42,6 +46,7 @@ public class ChunkCollector {
 
         full = false;
         contents = new HashMap<>();
+        contentItemList = new ArrayList<>();
 
         autoSellTier = 1;
         lastAutoSold = 0L;
@@ -84,6 +89,14 @@ public class ChunkCollector {
 
     public void setContents(HashMap<ItemStack, Integer> contents) {
         this.contents = contents;
+    }
+
+    public List<ContentItem> getContentItemList() {
+        return contentItemList;
+    }
+
+    public void setContentItemList(List<ContentItem> contentItemList) {
+        this.contentItemList = contentItemList;
     }
 
     public int getAutoSellTier() {
@@ -140,5 +153,23 @@ public class ChunkCollector {
 
     public void setEfficiencyValue(double efficiencyValue) {
         this.efficiencyValue = efficiencyValue;
+    }
+
+    public List<ContentItem> sortIntoContentItem(HashMap<ItemStack,Integer> contents){
+        for (ContentItem contentItem : contentItemList) {
+            if (!contentItem.isFull()){
+                int amountAlready = contentItem.getAmount();
+                ItemStack itemStack = contentItem.getItemStack();
+
+                for (ItemStack newItem : contents.keySet()) {
+                    if (newItem.isSimilar(itemStack)){
+                        int newAmount = contents.get(newItem);
+                        int space = currentSlotCapacity - amountAlready;
+
+                    }
+                }
+
+            }
+        }
     }
 }

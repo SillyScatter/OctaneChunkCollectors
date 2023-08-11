@@ -42,6 +42,15 @@ public class GuiConfig extends AnnotatedConfig {
     @ConfigField(path = "sellbutton.item")
     public ItemStack sellButtonItem = Util.createItemStack(Material.EMERALD, 1, "&dSell All", Arrays.asList("&aClick to sell all the stuff","line2"));
 
+    @ConfigField(path = "sellbutton.sellprice.format")
+    public String sellPriceFormat = "&4* &f%economy%: &c%symbol%%amount%";
+
+    @ConfigField(path = "sellbutton.sellprice.line", comment = "the line of the lore to insert the economies at")
+    public int sellPriceLine = 2;
+
+    @ConfigField(path = "sellbutton.sellprice.enabled")
+    public boolean sellPriceEnabled = true;
+
     @ConfigField(path = "upgradebutton.index")
     public Integer upgradeButtonIndex = 23;
 
@@ -51,5 +60,9 @@ public class GuiConfig extends AnnotatedConfig {
     @ConfigField(path = "border.item")
     public ItemStack borderItem = Util.createItemStack(Material.GRAY_STAINED_GLASS_PANE, 1, "&7");
 
+    @ConfigField(path = "pagesize")
+    public int pageSize = 27;
 
+    @ConfigField(path = "content.sound")
+    public String contentButtonSound = "ENTITY_ENDERMAN_TELEPORT";
 }

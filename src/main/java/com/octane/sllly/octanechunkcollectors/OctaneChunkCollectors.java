@@ -1,10 +1,7 @@
 package com.octane.sllly.octanechunkcollectors;
 
 import com.octane.sllly.octanechunkcollectors.commands.ChunkCollectorCommandSystem;
-import com.octane.sllly.octanechunkcollectors.configs.CollectorConfig;
-import com.octane.sllly.octanechunkcollectors.configs.GuiConfig;
-import com.octane.sllly.octanechunkcollectors.configs.UpgradeMapConfigLogic;
-import com.octane.sllly.octanechunkcollectors.configs.UpgradesConfig;
+import com.octane.sllly.octanechunkcollectors.configs.*;
 import com.octane.sllly.octanechunkcollectors.listeners.PlaceCollector;
 import com.octane.sllly.octanechunkcollectors.listeners.RightClickCollector;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
@@ -32,6 +29,8 @@ public final class OctaneChunkCollectors extends JavaPlugin {
 
     public static GuiConfig guiConfig;
 
+    public static LanguageConfig languageConfig;
+
     public static Map<Location, ChunkCollector> locationCollectorMap = new HashMap<>();
 
     public static List<Chunk> usedChunks = new ArrayList<>();
@@ -52,6 +51,8 @@ public final class OctaneChunkCollectors extends JavaPlugin {
         upgradesConfig.initialize();
         guiConfig = new GuiConfig(getDataFolder(), "gui-config");
         guiConfig.initialize();
+        languageConfig = new LanguageConfig(getDataFolder(), "language-config");
+        languageConfig.initialize();
 
 
         new ChunkCollectorCommandSystem("occ", "octanechunkcollectors", "octanechunkcollector", "collectors").registerCommandBranch(this);
