@@ -65,4 +65,10 @@ public class GuiConfig extends AnnotatedConfig {
 
     @ConfigField(path = "content.sound")
     public String contentButtonSound = "ENTITY_ENDERMAN_TELEPORT";
+
+    @ConfigField(path = "content.titleformat")
+    public String contentTitleFormat = "&c%amount%x %f%oldtitle%";
+
+    @ConfigField(path = "content.extralore")
+    public List<String> contentExtraLore = Arrays.asList("", "&feach item: %sellprice-solo%", "&fall together: %sellprice-all%");
 }

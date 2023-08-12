@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.List;
+
 public class RightClickCollector implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
@@ -30,6 +32,6 @@ public class RightClickCollector implements Listener {
         event.setCancelled(true);
 
         Player player = event.getPlayer();
-        new CollectorMenu(chunkCollector).open(player);
+        chunkCollector.getCollectorMenu().open(player);
     }
 }

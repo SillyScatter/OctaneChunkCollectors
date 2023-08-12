@@ -2,6 +2,7 @@ package com.octane.sllly.octanechunkcollectors.objects.menuitems;
 
 import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
+import com.octane.sllly.octanechunkcollectors.objects.CollectorMenu;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanemobdrops.HeadData;
 import com.octanemobdrops.HeadsApi;
@@ -9,6 +10,7 @@ import com.octanemobdrops.OctaneMobDrops;
 import com.octanepvp.splityosis.octaneeconomies.api.Economy;
 import com.octanepvp.splityosis.octaneshop.objects.EcoPrice;
 import dev.splityosis.menulib.MenuItem;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,6 +40,8 @@ public class SellAllButton extends MenuItem {
                 economy.deposit(player, economyWorth);
             }
             chunkCollector.setContents(new HashMap<>());
+            chunkCollector.setContentItemList(new ArrayList<>());
+
         });
     }
 
@@ -79,6 +83,10 @@ public class SellAllButton extends MenuItem {
         for (ItemStack itemStack : contents.keySet()) {
             int amount = contents.get(itemStack);
 
+            if (itemStack == null || itemStack.getType()== Material.AIR){
+                continue;
+            }
+
             if (HeadsApi.isHead(itemStack)){
                 HeadData headData = OctaneMobDrops.headDataMap.get(HeadsApi.getHeadType(itemStack));
                 Economy economy = OctaneChunkCollectors.octaneEconomiesAPI.getEconomy(headData.getEconomy());
@@ -94,6 +102,9 @@ public class SellAllButton extends MenuItem {
                 if (ecoPrice != null){
                     Economy economy = OctaneChunkCollectors.octaneEconomiesAPI.getEconomy(ecoPrice.getEconomy().getName());
                     Double economyWorthSoFar = contentsWorth.get(economy);
+                    if (economyWorthSoFar == null){
+                        economyWorthSoFar = 0.0;
+                    }
                     double itemStackWorth = ecoPrice.getPrice()*amount+economyWorthSoFar;
                     contentsWorth.put(economy, itemStackWorth);
                 }

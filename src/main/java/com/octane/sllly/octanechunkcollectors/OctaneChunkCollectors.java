@@ -2,8 +2,7 @@ package com.octane.sllly.octanechunkcollectors;
 
 import com.octane.sllly.octanechunkcollectors.commands.ChunkCollectorCommandSystem;
 import com.octane.sllly.octanechunkcollectors.configs.*;
-import com.octane.sllly.octanechunkcollectors.listeners.PlaceCollector;
-import com.octane.sllly.octanechunkcollectors.listeners.RightClickCollector;
+import com.octane.sllly.octanechunkcollectors.listeners.*;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
 import com.octanepvp.splityosis.octaneeconomies.api.OctaneEconomiesAPI;
 import com.octanepvp.splityosis.octaneshop.api.OctaneShopAPI;
@@ -33,7 +32,7 @@ public final class OctaneChunkCollectors extends JavaPlugin {
 
     public static Map<Location, ChunkCollector> locationCollectorMap = new HashMap<>();
 
-    public static List<Chunk> usedChunks = new ArrayList<>();
+    public static Map<Chunk, ChunkCollector> chunkCollectorMap = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -58,6 +57,9 @@ public final class OctaneChunkCollectors extends JavaPlugin {
         new ChunkCollectorCommandSystem("occ", "octanechunkcollectors", "octanechunkcollector", "collectors").registerCommandBranch(this);
         getServer().getPluginManager().registerEvents(new PlaceCollector(), this);
         getServer().getPluginManager().registerEvents(new RightClickCollector(), this);
+        getServer().getPluginManager().registerEvents(new MobDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new BreakCollector(), this);
+        getServer().getPluginManager().registerEvents(new CloseMenu(), this);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.objects.menuitems.ContentItem;
 import com.octanepvp.octanefactions.fobjects.Faction;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ public class ChunkCollector {
     private Location location;
 
     private Faction faction;
-
-    private boolean full;
 
     private HashMap<ItemStack, Integer> contents;
 
@@ -40,11 +39,12 @@ public class ChunkCollector {
 
     private double efficiencyValue;
 
+    private CollectorMenu collectorMenu;
+
     public ChunkCollector(Location location, Faction faction) {
         this.location = location;
         this.faction = faction;
 
-        full = false;
         contents = new HashMap<>();
         contentItemList = new ArrayList<>();
 
@@ -57,6 +57,7 @@ public class ChunkCollector {
 
         efficiencyTier = 1;
         efficiencyValue = OctaneChunkCollectors.upgradesConfig.upgradeMap.get("efficiency").getTierValueMap().get(1);
+        collectorMenu = new CollectorMenu(this);
     }
 
     public Location getLocation() {
@@ -73,14 +74,6 @@ public class ChunkCollector {
 
     public void setFaction(Faction faction) {
         this.faction = faction;
-    }
-
-    public boolean isFull() {
-        return full;
-    }
-
-    public void setFull(boolean full) {
-        this.full = full;
     }
 
     public HashMap<ItemStack, Integer> getContents() {
@@ -155,21 +148,7 @@ public class ChunkCollector {
         this.efficiencyValue = efficiencyValue;
     }
 
-    public List<ContentItem> sortIntoContentItem(HashMap<ItemStack,Integer> contents){
-        for (ContentItem contentItem : contentItemList) {
-            if (!contentItem.isFull()){
-                int amountAlready = contentItem.getAmount();
-                ItemStack itemStack = contentItem.getItemStack();
-
-                for (ItemStack newItem : contents.keySet()) {
-                    if (newItem.isSimilar(itemStack)){
-                        int newAmount = contents.get(newItem);
-                        int space = currentSlotCapacity - amountAlready;
-
-                    }
-                }
-
-            }
-        }
+    public CollectorMenu getCollectorMenu() {
+        return collectorMenu;
     }
 }

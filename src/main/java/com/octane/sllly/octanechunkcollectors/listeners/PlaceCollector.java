@@ -29,7 +29,7 @@ public class PlaceCollector implements Listener {
 
         Chunk chunk = event.getBlockPlaced().getChunk();
 
-        if (OctaneChunkCollectors.usedChunks.contains(chunk)){
+        if (OctaneChunkCollectors.chunkCollectorMap.keySet().contains(chunk)){
             //Action - you cant place a chunk collector here as there is already one placed!
             event.setCancelled(true);
             return;
@@ -39,5 +39,6 @@ public class PlaceCollector implements Listener {
 
         ChunkCollector chunkCollector = new ChunkCollector(event.getBlockPlaced().getLocation(), faction);
         OctaneChunkCollectors.locationCollectorMap.put(event.getBlockPlaced().getLocation(), chunkCollector);
+        OctaneChunkCollectors.chunkCollectorMap.put(event.getBlockPlaced().getChunk(), chunkCollector);
     }
 }

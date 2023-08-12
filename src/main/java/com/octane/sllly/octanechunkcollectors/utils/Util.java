@@ -173,4 +173,29 @@ public class Util {
         item.setItemMeta(meta);
         return item;
     }
+
+    public static String getItemName(ItemStack item){
+        String name;
+        if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName())
+            name = item.getItemMeta().getDisplayName();
+        else {
+            name = item.getType().name().toLowerCase().replace("_", " ");
+            if (!name.equals("TNT")) {
+                name = name.toLowerCase();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String s : name.split(Pattern.quote(" "))) {
+                    stringBuilder.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
+                }
+                name = stringBuilder.substring(0, stringBuilder.length()-1);
+            }
+        }
+        return name;
+    }
+
+    public static List<String> getLore(ItemStack itemStack){
+        if (itemStack.getItemMeta().hasLore()){
+            return itemStack.getItemMeta().getLore();
+        }
+        return new ArrayList<>();
+    }
 }
