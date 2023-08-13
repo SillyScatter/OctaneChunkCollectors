@@ -4,6 +4,7 @@ import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
 import com.octane.sllly.octanechunkcollectors.objects.CollectorMenu;
 import com.octane.sllly.octanechunkcollectors.utils.EconomyUtils;
+import com.octane.sllly.octanechunkcollectors.utils.MathUtils;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanepvp.splityosis.octaneeconomies.api.Economy;
 import dev.splityosis.menulib.MenuItem;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ContentItem extends MenuItem {
@@ -89,8 +91,8 @@ public class ContentItem extends MenuItem {
         Economy economy = EconomyUtils.getEconomy(itemStack);
         String economyName = economy.getName();
         String symbol = economy.getSymbol();
-        double pricePerItem = EconomyUtils.getPricePerItem(itemStack);
-        double totalPrice = pricePerItem*amount;
+        String pricePerItem = MathUtils.formatDouble(EconomyUtils.getPricePerItem(itemStack));
+        String totalPrice = MathUtils.formatDouble(EconomyUtils.getPricePerItem(itemStack)*amount);
 
         displayItem = Util.replaceTextInItem(displayItem, "%sellprice-solo%",pricePerItem+"");
         displayItem = Util.replaceTextInItem(displayItem, "%sellprice-all%", totalPrice+"");

@@ -2,6 +2,9 @@ package com.octane.sllly.octanechunkcollectors.objects;
 
 import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.objects.menuitems.ContentItem;
+import com.octane.sllly.octanechunkcollectors.utils.EconomyUtils;
+import com.octane.sllly.octanechunkcollectors.utils.SortingUtils;
+import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanepvp.octanefactions.fobjects.Faction;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -24,6 +27,8 @@ public class ChunkCollector {
     //Upgrades people, Upgrades!
     //Auto Sell Upgrade
     private int autoSellTier;
+
+    private boolean autoSellEnabled;
 
     private Long lastAutoSold;
 
@@ -51,6 +56,7 @@ public class ChunkCollector {
         autoSellTier = 1;
         lastAutoSold = 0L;
         autoSellTime = OctaneChunkCollectors.upgradesConfig.upgradeMap.get("autosell").getTierValueMap().get(1);
+        autoSellEnabled = false;
 
         slotCapacityTier = 1;
         currentSlotCapacity = Integer.valueOf((int) Math.round(OctaneChunkCollectors.upgradesConfig.upgradeMap.get("capacity").getTierValueMap().get(1)));
@@ -150,5 +156,48 @@ public class ChunkCollector {
 
     public CollectorMenu getCollectorMenu() {
         return collectorMenu;
+    }
+
+    public boolean isAutoSellEnabled() {
+        return autoSellEnabled;
+    }
+
+    public void setAutoSellEnabled(boolean autoSellEnabled) {
+        this.autoSellEnabled = autoSellEnabled;
+    }
+
+    public HashMap<Economy, Double> getValue(){
+        HashMap<Economy, Double> values = new HashMap<>();
+
+        for (ItemStack itemStack : contents.keySet()) {
+            int amount = contents.get(itemStack);
+
+            Economy economy = EconomyUtils.getEconomy(itemStack);
+            double price = EconomyUtils.getPricePerItem(itemStack);
+
+            values.put(economy, price*amount);
+        }
+        return values;
+    }
+
+    public void sellToFBank(Faction faction){
+
+        HashMap<Economy, Double> values = getValue();
+        Double value = values.get("vault");
+        if (value == null){
+            return;
+        }
+
+        Homebase homebase = Homebase.getHomebase(faction);
+        FactionsHeart factionsHeart = homebase.getHeart();
+        double bankBal = factionsHeart.getBankBalance();
+        double maxBankBal = factionsHeart.getBankBalanceCap();
+
+        factionsHeart.setBankBalance(Math.min(bankBal+value, maxBankBal));
+
+        setContents(new HashMap<>());
+        setContentItemList(new ArrayList<>());
+
+        collectorMenu.update();
     }
 }

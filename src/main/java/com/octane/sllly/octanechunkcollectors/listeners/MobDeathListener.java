@@ -24,6 +24,13 @@ public class MobDeathListener implements Listener {
         List<ItemStack> drops = event.getDrops();
         ChunkCollector chunkCollector = OctaneChunkCollectors.chunkCollectorMap.get(event.getEntity().getLocation().getChunk());
 
+        double efficiency = chunkCollector.getEfficiencyValue();
+        if (efficiency > 1)
+            efficiency = 1;
+        for (ItemStack drop : drops) {
+            drop.setAmount((int) Math.ceil(drop.getAmount()*efficiency));
+        }
+
         if (chunkCollector == null){
             return;
         }
@@ -36,14 +43,7 @@ public class MobDeathListener implements Listener {
 
         HashMap<ItemStack, Integer> dropsMap = SortingUtils.convertListToHashMap(drops);
 
-        //Debug
-        //for (ItemStack itemStack : dropsMap.keySet()) {
-        //    Util.broadcast("mob dropped "+dropsMap.get(itemStack)+" of "+itemStack.getType()+" of stack size "+itemStack.getAmount());
-        //}
-
         chunkCollector.setContentItemList(SortingUtils.addIntoContentItems(dropsMap, chunkCollector));
-
-
 
         chunkCollector.setContents(SortingUtils.convertContentItemsToHashMap(chunkCollector.getContentItemList()));
 

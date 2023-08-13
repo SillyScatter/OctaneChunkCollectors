@@ -20,6 +20,9 @@ public class CollectorConfig extends AnnotatedConfig {
     @ConfigField(path = "item", comment = "this is the item that will be in their inventory")
     public ItemStack displayItem = getDisplayItem();
 
+    @ConfigField(path = "auto-save-period",comment = "in seconds")
+    public int autoSavePeriod = 300;
+
     private ItemStack getDisplayItem(){
         String name = "&e&lOmni-Collector";
         List<String> lore = Arrays.asList("&7Omni-collectors are awesome", "&7Omni-collectors are cool", "&7It's Henry's job to change this config", "&7Or else he's a fool");

@@ -3,6 +3,7 @@ package com.octane.sllly.octanechunkcollectors.objects.menuitems;
 import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
 import com.octane.sllly.octanechunkcollectors.objects.CollectorMenu;
+import com.octane.sllly.octanechunkcollectors.utils.MathUtils;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanemobdrops.HeadData;
 import com.octanemobdrops.HeadsApi;
@@ -34,7 +35,7 @@ public class SellAllButton extends MenuItem {
                 String symbol = economy.getSymbol();
                 String economyName = economy.getName();
                 String format = OctaneChunkCollectors.languageConfig.sellFormat;
-                format = format.replace("%symbol%", symbol).replace("%economy%",economyName).replace("%amount%",String.valueOf(economyWorth));
+                format = format.replace("%symbol%", symbol).replace("%economy%",economyName).replace("%amount%",MathUtils.formatDouble(economyWorth));
                 Util.sendMessage(player, format);
 
                 economy.deposit(player, economyWorth);
@@ -62,11 +63,11 @@ public class SellAllButton extends MenuItem {
             }
 
             for (Economy economy : contentsWorth.keySet()) {
-                double economyWorth = contentsWorth.get(economy);
+                String economyWorth = MathUtils.formatDouble(contentsWorth.get(economy));
                 String symbol = economy.getSymbol();
                 String economyName = economy.getName();
                 String format = OctaneChunkCollectors.guiConfig.sellPriceFormat;
-                format = format.replace("%symbol%", symbol).replace("%economy%",economyName).replace("%amount%",String.valueOf(economyWorth));
+                format = format.replace("%symbol%", symbol).replace("%economy%",economyName).replace("%amount%",economyWorth);
 
                 itemLore.add(insertAt, Util.colorize(format));
             }
