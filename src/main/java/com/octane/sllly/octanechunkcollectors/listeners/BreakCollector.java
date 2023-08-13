@@ -18,11 +18,12 @@ public class BreakCollector implements Listener {
         if (chunkCollector == null){
             return;
         }
-        Location location = event.getBlock().getLocation();
-        OctaneChunkCollectors.locationCollectorMap.remove(location);
-        OctaneChunkCollectors.chunkCollectorMap.remove(location.getChunk());
+
+        event.setCancelled(true);
+
+        chunkCollector.delete();
 
         ItemStack itemStack = OctaneChunkCollectors.collectorConfig.getCollectorItem();
-        location.getWorld().dropItem(location, itemStack);
+        event.getBlock().getLocation().getWorld().dropItem(event.getBlock().getLocation(), itemStack);
     }
 }

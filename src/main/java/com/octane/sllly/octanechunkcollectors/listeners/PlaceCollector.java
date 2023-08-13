@@ -34,11 +34,9 @@ public class PlaceCollector implements Listener {
             event.setCancelled(true);
             return;
         }
-        Homebase homebase = Homebase.getHomebase(event.getBlockPlaced().getWorld());
-        Faction faction = homebase.getFaction();
+//        Homebase homebase = Homebase.getHomebase(event.getBlockPlaced().getWorld());
+//        Faction faction = homebase.getFaction();
 
-        ChunkCollector chunkCollector = new ChunkCollector(event.getBlockPlaced().getLocation(), faction);
-        OctaneChunkCollectors.locationCollectorMap.put(event.getBlockPlaced().getLocation(), chunkCollector);
-        OctaneChunkCollectors.chunkCollectorMap.put(event.getBlockPlaced().getChunk(), chunkCollector);
+        ChunkCollector chunkCollector = new ChunkCollector(event.getBlockPlaced().getLocation());
     }
 }

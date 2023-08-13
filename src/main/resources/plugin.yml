@@ -2,3 +2,14 @@ name: OctaneChunkCollectors
 version: '${project.version}'
 main: com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors
 api-version: 1.19
+load: POSTWORLD
+depend:
+  - OctaneEconomies
+  - OctaneShop
+  - OctaneMobDrops
+
+softdepend:
+  - OctaneWorlds
+  - Multiverse
+
+

@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SellAllButton extends MenuItem {
     public SellAllButton(ChunkCollector chunkCollector) {
@@ -43,6 +44,7 @@ public class SellAllButton extends MenuItem {
             chunkCollector.setContents(new HashMap<>());
             chunkCollector.setContentItemList(new ArrayList<>());
 
+            ((CollectorMenu) menu).update();
         });
     }
 
@@ -80,7 +82,7 @@ public class SellAllButton extends MenuItem {
     public static HashMap<Economy, Double> getContentsWorth(ChunkCollector chunkCollector){
         HashMap<Economy, Double> contentsWorth = new HashMap<>();
 
-        HashMap<ItemStack, Integer> contents = chunkCollector.getContents();
+        Map<ItemStack, Integer> contents = chunkCollector.getContents();
         for (ItemStack itemStack : contents.keySet()) {
             int amount = contents.get(itemStack);
 

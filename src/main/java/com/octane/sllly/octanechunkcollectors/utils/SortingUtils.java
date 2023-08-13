@@ -24,7 +24,7 @@ public class SortingUtils {
         return itemMap;
     }
 
-    public static List<ContentItem> addIntoContentItems(HashMap<ItemStack,Integer> contents, ChunkCollector chunkCollector){
+    public static List<ContentItem> addIntoContentItems(Map<ItemStack,Integer> contents, ChunkCollector chunkCollector){
 
         int currentSlotCapacity = chunkCollector.getCurrentSlotCapacity();
         List<ContentItem> contentItemList = chunkCollector.getContentItemList();

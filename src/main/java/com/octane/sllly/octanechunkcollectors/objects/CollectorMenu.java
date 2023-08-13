@@ -42,9 +42,12 @@ public class CollectorMenu extends Menu {
     public void update(){
         this.setStaticItem(OctaneChunkCollectors.guiConfig.sellButtonIndex, new SellAllButton(chunkCollector));
 
+        this.clearListedItems();
+
         for (ContentItem contentItem : chunkCollector.getContentItemList()) {
             this.addListedItem(contentItem);
         }
+        if (getInventory() != null)
         this.refresh();
     }
 }

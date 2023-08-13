@@ -6,21 +6,23 @@ import com.octane.sllly.octanechunkcollectors.utils.EconomyUtils;
 import com.octane.sllly.octanechunkcollectors.utils.SortingUtils;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanepvp.octanefactions.fobjects.Faction;
+import com.octanepvp.splityosis.octaneeconomies.api.Economy;
+import com.octanepvp.splityosis.octanehomebases.objects.heart.FactionsHeart;
+import com.octanepvp.splityosis.octanehomebases.objects.homebase.Homebase;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChunkCollector {
 
     private Location location;
 
-    private Faction faction;
-
-    private HashMap<ItemStack, Integer> contents;
+    private Map<ItemStack, Integer> contents;
 
     private List<ContentItem> contentItemList;
 
@@ -46,9 +48,10 @@ public class ChunkCollector {
 
     private CollectorMenu collectorMenu;
 
-    public ChunkCollector(Location location, Faction faction) {
+
+    // Brand new collector
+    public ChunkCollector(Location location) {
         this.location = location;
-        this.faction = faction;
 
         contents = new HashMap<>();
         contentItemList = new ArrayList<>();
@@ -64,6 +67,44 @@ public class ChunkCollector {
         efficiencyTier = 1;
         efficiencyValue = OctaneChunkCollectors.upgradesConfig.upgradeMap.get("efficiency").getTierValueMap().get(1);
         collectorMenu = new CollectorMenu(this);
+        place();
+    }
+
+    // Constructor to load from data
+    public ChunkCollector(Location location, Map<ItemStack, Integer> items, int autoSellTier, int slotCapacityTier, int efficiencyTier, long lastAutoSold, boolean autoSellEnabled) {
+        this.location = location;
+
+        this.autoSellTier = autoSellTier;
+        this.lastAutoSold = lastAutoSold;
+        this.autoSellEnabled = autoSellEnabled;
+        autoSellTime = OctaneChunkCollectors.upgradesConfig.upgradeMap.get("autosell").getTierValueMap().get(autoSellTier);
+
+        this.slotCapacityTier = slotCapacityTier;
+        currentSlotCapacity = Integer.valueOf((int) Math.round(OctaneChunkCollectors.upgradesConfig.upgradeMap.get("capacity").getTierValueMap().get(slotCapacityTier)));
+
+        this.efficiencyTier = efficiencyTier;
+        efficiencyValue = OctaneChunkCollectors.upgradesConfig.upgradeMap.get("efficiency").getTierValueMap().get(efficiencyTier);
+
+        contents = items;
+        contentItemList = new ArrayList<>();
+        contentItemList = SortingUtils.addIntoContentItems(new HashMap<>(contents), this);
+
+        collectorMenu = new CollectorMenu(this);
+        place();
+    }
+
+    private void place(){
+        //TODO hologram
+        location.getBlock().setType(OctaneChunkCollectors.collectorConfig.getCollectorItem().getType());
+        OctaneChunkCollectors.locationCollectorMap.put(location, this);
+        OctaneChunkCollectors.chunkCollectorMap.put(location.getChunk(), this);
+    }
+
+    public void delete(){
+        location.getBlock().setType(Material.AIR);
+        OctaneChunkCollectors.blockDataFiles.deleteConfig(location.getBlock());
+        OctaneChunkCollectors.locationCollectorMap.remove(location);
+        OctaneChunkCollectors.chunkCollectorMap.remove(location.getChunk());
     }
 
     public Location getLocation() {
@@ -74,15 +115,7 @@ public class ChunkCollector {
         this.location = location;
     }
 
-    public Faction getFaction() {
-        return faction;
-    }
-
-    public void setFaction(Faction faction) {
-        this.faction = faction;
-    }
-
-    public HashMap<ItemStack, Integer> getContents() {
+    public Map<ItemStack, Integer> getContents() {
         return contents;
     }
 
