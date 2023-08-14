@@ -70,6 +70,18 @@ public class Util {
         return newList;
     }
 
+    public static ItemStack colorize(ItemStack itemStack){
+        String name = Util.colorize(getItemName(itemStack));
+        List<String> lore = Util.colorize(getLore(itemStack));
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        itemMeta.setDisplayName(name);
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+
+        return itemStack;
+    }
+
     public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore){
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta meta = itemStack.getItemMeta();

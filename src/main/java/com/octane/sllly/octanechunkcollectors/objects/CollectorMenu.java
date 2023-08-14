@@ -2,6 +2,7 @@ package com.octane.sllly.octanechunkcollectors.objects;
 
 import com.octane.sllly.octanechunkcollectors.OctaneChunkCollectors;
 import com.octane.sllly.octanechunkcollectors.configs.GuiConfig;
+import com.octane.sllly.octanechunkcollectors.objects.menuitems.AutoSellToggleItem;
 import com.octane.sllly.octanechunkcollectors.objects.menuitems.ContentItem;
 import com.octane.sllly.octanechunkcollectors.objects.menuitems.SellAllButton;
 import dev.splityosis.menulib.Menu;
@@ -41,6 +42,7 @@ public class CollectorMenu extends Menu {
 
     public void update(){
         this.setStaticItem(OctaneChunkCollectors.guiConfig.sellButtonIndex, new SellAllButton(chunkCollector));
+        this.setStaticItem(OctaneChunkCollectors.guiConfig.autoSellIndex, new AutoSellToggleItem(chunkCollector));
 
         this.clearListedItems();
 

@@ -24,14 +24,17 @@ public class GuiConfig extends AnnotatedConfig {
     @ConfigField(path = "autosell.index")
     public Integer autoSellIndex = 21;
 
+    @ConfigField(path = "autosell.toggle-sound")
+    public String autoSellToggleSound = "BLOCK_DISPENSER_FAIL";
+
     @ConfigField(path = "autosell.item")
     public ItemStack autoSellItem = Util.createItemStack(Material.OAK_SIGN, 1, "&dAuto Sell", Arrays.asList("&%enabledcolorid%%isenabled", "&3click to toggle"));
 
-    @ConfigField(path = "autosell.colors.enabled")
-    public String autoSellColorEnabled = "a";
+    @ConfigField(path = "autosell.string.enabled")
+    public String autoSellStringEnabled = "&a&nEnabled";
 
-    @ConfigField(path = "autosell.colors.disabled")
-    public String autoSellColorDisabled = "c";
+    @ConfigField(path = "autosell.string.disabled")
+    public String autoSellStringDisabled = "&c&nDisabled";
 
     @ConfigField(path = "sellbutton.sound")
     public String sellButtonSound = "BLOCK_AMETHYST_BLOCK_BREAK";

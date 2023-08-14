@@ -199,8 +199,8 @@ public class ChunkCollector {
         this.autoSellEnabled = autoSellEnabled;
     }
 
-    public HashMap<Economy, Double> getValue(){
-        HashMap<Economy, Double> values = new HashMap<>();
+    public Map<Economy, Double> getValue(){
+        Map<Economy, Double> values = new HashMap<>();
 
         for (ItemStack itemStack : contents.keySet()) {
             int amount = contents.get(itemStack);
@@ -208,6 +208,7 @@ public class ChunkCollector {
             Economy economy = EconomyUtils.getEconomy(itemStack);
             double price = EconomyUtils.getPricePerItem(itemStack);
 
+            //TODO AHHHHHH
             values.put(economy, price*amount);
         }
         return values;
@@ -215,7 +216,7 @@ public class ChunkCollector {
 
     public void sellToFBank(Faction faction){
 
-        HashMap<Economy, Double> values = getValue();
+        Map<Economy, Double> values = getValue();
         Double value = values.get("vault");
         if (value == null){
             return;
@@ -232,5 +233,11 @@ public class ChunkCollector {
         setContentItemList(new ArrayList<>());
 
         collectorMenu.update();
+
+        //TODO Re-write to make it not bin stuff
+    }
+
+    public Faction getFaction(){
+        return Homebase.getHomebase(location.getWorld()).getFaction();
     }
 }

@@ -82,8 +82,8 @@
         <dependency>
             <groupId>com.github.SplitYoSis</groupId>
             <artifactId>ConfigSystem</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
+            <version>3.0.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.SplitYoSis</groupId>

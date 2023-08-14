@@ -91,6 +91,12 @@ public class BlockDataFiles {
             config.set("other", null);
             config.set("items", null);
 
+            config.set("tiers.auto-sell", chunkCollector.getAutoSellTier());
+            config.set("tiers.efficiency", chunkCollector.getEfficiencyTier());
+            config.set("tiers.slot-capacity", chunkCollector.getSlotCapacityTier());
+            config.set("other.auto-sell.enabled", chunkCollector.isAutoSellEnabled());
+            config.set("other.auto-sell.last", chunkCollector.getLastAutoSold());
+
             int i = 0;
 
             for (Map.Entry<ItemStack, Integer> itemStackIntegerEntry : new HashMap<>(chunkCollector.getContents()).entrySet()) {
@@ -98,11 +104,6 @@ public class BlockDataFiles {
                 int amount = itemStackIntegerEntry.getValue();
                 i++;
 
-                config.set("tiers.auto-sell", chunkCollector.getAutoSellTier());
-                config.set("tiers.efficiency", chunkCollector.getEfficiencyTier());
-                config.set("tiers.slot-capacity", chunkCollector.getSlotCapacityTier());
-                config.set("other.auto-sell.enabled", chunkCollector.isAutoSellEnabled());
-                config.set("other.auto-sell.last", chunkCollector.getLastAutoSold());
                 config.set("items."+i+".item", itemStack);
                 config.set("items."+i+".amount", amount);
             }

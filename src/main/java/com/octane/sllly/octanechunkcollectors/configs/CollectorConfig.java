@@ -23,6 +23,9 @@ public class CollectorConfig extends AnnotatedConfig {
     @ConfigField(path = "auto-save-period",comment = "in seconds")
     public int autoSavePeriod = 300;
 
+    @ConfigField(path = "auto-sell-check-period",comment = "in seconds")
+    public int autoSellCheckPeriod = 300;
+
     private ItemStack getDisplayItem(){
         String name = "&e&lOmni-Collector";
         List<String> lore = Arrays.asList("&7Omni-collectors are awesome", "&7Omni-collectors are cool", "&7It's Henry's job to change this config", "&7Or else he's a fool");

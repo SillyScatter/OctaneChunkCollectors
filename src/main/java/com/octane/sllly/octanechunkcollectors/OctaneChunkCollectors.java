@@ -3,6 +3,7 @@ package com.octane.sllly.octanechunkcollectors;
 import com.octane.sllly.octanechunkcollectors.commands.ChunkCollectorCommandSystem;
 import com.octane.sllly.octanechunkcollectors.configs.*;
 import com.octane.sllly.octanechunkcollectors.listeners.*;
+import com.octane.sllly.octanechunkcollectors.objects.AutoSellTask;
 import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
 import com.octanepvp.splityosis.octaneeconomies.api.OctaneEconomiesAPI;
@@ -15,7 +16,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,6 +34,8 @@ public final class OctaneChunkCollectors extends JavaPlugin {
     public static GuiConfig guiConfig;
 
     public static LanguageConfig languageConfig;
+
+    public static ActionsConfig actionsConfig;
 
     public static Map<Location, ChunkCollector> locationCollectorMap = new HashMap<>();
 
@@ -63,6 +65,8 @@ public final class OctaneChunkCollectors extends JavaPlugin {
         guiConfig.initialize();
         languageConfig = new LanguageConfig(getDataFolder(), "language-config");
         languageConfig.initialize();
+        actionsConfig = new ActionsConfig(getDataFolder(), "actions-config");
+        actionsConfig.initialize();
 
         //Data
         blockDataDirectory = new File(getDataFolder(), "block-data");
@@ -81,6 +85,8 @@ public final class OctaneChunkCollectors extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobDeathListener(), this);
         getServer().getPluginManager().registerEvents(new BreakCollector(), this);
         getServer().getPluginManager().registerEvents(new CloseMenu(), this);
+
+        new AutoSellTask().start();
     }
 
     @Override

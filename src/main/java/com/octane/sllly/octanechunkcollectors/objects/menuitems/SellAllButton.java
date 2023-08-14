@@ -10,6 +10,7 @@ import com.octanemobdrops.HeadsApi;
 import com.octanemobdrops.OctaneMobDrops;
 import com.octanepvp.splityosis.octaneeconomies.api.Economy;
 import com.octanepvp.splityosis.octaneshop.objects.EcoPrice;
+import dev.splityosis.configsystem.configsystem.actionsystem.Actions;
 import dev.splityosis.menulib.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -30,19 +31,24 @@ public class SellAllButton extends MenuItem {
             Player player = (Player) event.getWhoClicked();
             HashMap<Economy, Double> contentsWorth = getContentsWorth(chunkCollector);
 
-            Util.sendMessage(player, OctaneChunkCollectors.languageConfig.sellMessage);
+            OctaneChunkCollectors.actionsConfig.onSellAllPrimary.perform(player, null);
+
             for (Economy economy : contentsWorth.keySet()) {
                 double economyWorth = contentsWorth.get(economy);
                 String symbol = economy.getSymbol();
                 String economyName = economy.getName();
-                String format = OctaneChunkCollectors.languageConfig.sellFormat;
-                format = format.replace("%symbol%", symbol).replace("%economy%",economyName).replace("%amount%",MathUtils.formatDouble(economyWorth));
-                Util.sendMessage(player, format);
 
-                economy.deposit(player, economyWorth);
+                Map<String,String> placeHolders = new HashMap<>();
+                placeHolders.put("%symbol%", symbol);
+                placeHolders.put("%economy%",economyName);
+                placeHolders.put("%amount%",MathUtils.formatDouble(economyWorth));
+
+                OctaneChunkCollectors.actionsConfig.onSellAllPerEconomy.perform(player, placeHolders);
             }
-            chunkCollector.setContents(new HashMap<>());
-            chunkCollector.setContentItemList(new ArrayList<>());
+
+            for (ContentItem contentItem : new ArrayList<>(chunkCollector.getContentItemList())) {
+                contentItem.sellEntireContentItem(player);
+            }
 
             ((CollectorMenu) menu).update();
         });

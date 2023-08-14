@@ -5,11 +5,16 @@ import com.octane.sllly.octanechunkcollectors.objects.ChunkCollector;
 import com.octane.sllly.octanechunkcollectors.objects.CollectorMenu;
 import com.octane.sllly.octanechunkcollectors.utils.EconomyUtils;
 import com.octane.sllly.octanechunkcollectors.utils.MathUtils;
+import com.octane.sllly.octanechunkcollectors.utils.SortingUtils;
 import com.octane.sllly.octanechunkcollectors.utils.Util;
+import com.octanemobdrops.HeadData;
+import com.octanemobdrops.HeadsApi;
+import com.octanemobdrops.OctaneMobDrops;
 import com.octanepvp.splityosis.octaneeconomies.api.Economy;
 import dev.splityosis.menulib.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,10 +38,10 @@ public class ContentItem extends MenuItem {
         this.itemStack = itemStack;
 
         this.executes((event, menu) -> {
-
+            Player player = (Player) event.getWhoClicked();
 
             if (event.isShiftClick()){
-                Player player = (Player) event.getWhoClicked();
+
             }
 
             CollectorMenu collectorMenu = (CollectorMenu) menu;
@@ -100,5 +105,31 @@ public class ContentItem extends MenuItem {
         displayItem = Util.replaceTextInItem(displayItem, "%symbol%", symbol);
 
         return displayItem;
+    }
+
+    public boolean sellEntireContentItem(Player player){
+        ItemStack itemStack = getItemStack();
+        int amount = getAmount();
+        if (HeadsApi.isHead(itemStack)){
+            EntityType entityType = HeadsApi.getHeadType(itemStack);
+            if (!HeadsApi.canSell(player, entityType)){
+                return false;
+            }
+            HeadsApi.sell(player,entityType,amount);
+            chunkCollector.getContentItemList().remove(this);
+            chunkCollector.setContents(SortingUtils.convertContentItemsToHashMap(chunkCollector.getContentItemList()));
+            return true;
+        }
+        Economy economy = EconomyUtils.getEconomy(itemStack);
+        double value = EconomyUtils.getPricePerItem(itemStack);
+
+        if (economy == null) {
+            return true;
+        }
+
+        economy.deposit(player, value*amount);
+        chunkCollector.getContentItemList().remove(this);
+        chunkCollector.setContents(SortingUtils.convertContentItemsToHashMap(chunkCollector.getContentItemList()));
+        return true;
     }
 }

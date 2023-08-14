@@ -24,15 +24,15 @@ public class MobDeathListener implements Listener {
         List<ItemStack> drops = event.getDrops();
         ChunkCollector chunkCollector = OctaneChunkCollectors.chunkCollectorMap.get(event.getEntity().getLocation().getChunk());
 
+        if (chunkCollector == null){
+            return;
+        }
+
         double efficiency = chunkCollector.getEfficiencyValue();
         if (efficiency > 1)
             efficiency = 1;
         for (ItemStack drop : drops) {
             drop.setAmount((int) Math.ceil(drop.getAmount()*efficiency));
-        }
-
-        if (chunkCollector == null){
-            return;
         }
 
         for (ItemStack drop : drops) {
@@ -48,7 +48,5 @@ public class MobDeathListener implements Listener {
         chunkCollector.setContents(SortingUtils.convertContentItemsToHashMap(chunkCollector.getContentItemList()));
 
         drops.clear();
-
-
     }
 }
